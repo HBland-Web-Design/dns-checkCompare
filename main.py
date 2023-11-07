@@ -54,7 +54,7 @@ def loadENV():
 
     f.close()
 
-    return
+    return cENV
 
 ###
 # Load Arguments
