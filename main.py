@@ -1,5 +1,6 @@
 #!/bin/python3
 import argparse
+from pathlib import Path
 import cache
 import alert
 import resolve_query
@@ -8,15 +9,31 @@ import resolve_query
 # Load Checks
 ###
 def getChecks():
+    f = open(Path('checks').resolve(), 'r')
+    
+    uChecks = f.readlines()
+    # Create data dictionary
+    checks = []
+    # loop through all checks and add to dictionary
+    for check in uChecks:
+        if check.startswith('#'):
+            continue
+        checkData = {}
+        checkData.record = check.split(";")[0]
+        checkData.recordType = check.split(";")[1]
 
-    return
+        checks.append(chackData)
+
+    f.close()
+    
+    return checks
 
 ###
 # Load Environment Variables
 ###
 def loadENV():
 
-    return 
+    return
 
 ###
 # Load Arguments
