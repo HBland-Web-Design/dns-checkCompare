@@ -1,6 +1,8 @@
 #!/bin/python3
 import argparse
-
+import cache
+import alert
+import resolve_query
 
 ###
 # Load Environment Variables
