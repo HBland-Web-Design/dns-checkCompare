@@ -19,8 +19,8 @@ def getChecks():
         if check.startswith('#'):
             continue
         checkData = {}
-        checkData.record = check.split(";")[0]
-        checkData.recordType = check.split(";")[1]
+        checkData["record"] = check.split(";")[0]
+        checkData["recordType"] = check.split(";")[1]
 
         checks.append(chackData)
 
@@ -32,6 +32,27 @@ def getChecks():
 # Load Environment Variables
 ###
 def loadENV():
+
+    f = open(Path('.env').resolve(), 'r')
+
+    uENV = f.readlines()
+    cENV={}
+
+    for envVar in uENV:
+        if envVar.startswith('CACHE_LOCATION'):
+            cENV["CACHE_LOCATION"] = envVar.split("=")[1]
+        else if envVar.startswith('CHECKS_LOCATION'):
+            cENV["CHECKS_LOCATION"] = envVar.split("=")[1]
+        else if envVar.startswith('TENNANT_ID'):
+            cENV["MS_TENNANT_ID"] = envVar.split("=")[1]
+        else if envVar.startswith('CLIENT_ID'):
+            cENV["MS_CLIENT_ID"] = envVar.split("=")[1]
+        else if envVar.startswith('CLIENT_SECRET'):
+            cENV["MS_CLIENT_SECRET"] = envVar.split("=")[1]
+        else:
+            continue
+
+    f.close()
 
     return
 
