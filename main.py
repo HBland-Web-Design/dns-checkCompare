@@ -5,6 +5,13 @@ import alert
 import resolve_query
 
 ###
+# Load Checks
+###
+def getChecks():
+
+    return
+
+###
 # Load Environment Variables
 ###
 def loadENV():
@@ -22,11 +29,11 @@ def getArgs():
     parser.add_argument('-e', '--environment',
                         action='', required=False,
                         nargs=1, default=None, 
-                        help='Sets an overide Environment File to default')
+                        help='Overide Default Environment File')
     parser.add_argument('-r', '--reset',
                         action='', required=False,
                         nargs=1, default=None, 
-                        help='Resets the Cache to known good')
+                        help='Resets the Cache to new known good')
     # parser.add_argument('-r', '--reset',
     #                     action='', required=False,
     #                     nargs=1, default=None, 
@@ -38,8 +45,9 @@ def getArgs():
 ###
 def main():
     args = getArgs()
-
     env = loadEnv()
+
+    checks = getChecks()
 
 ###
 # Start the checks
