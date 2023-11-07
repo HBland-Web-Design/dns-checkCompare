@@ -18,11 +18,12 @@ def getChecks():
     for check in uChecks:
         if check.startswith('#'):
             continue
+
         checkData = {}
         checkData["record"] = check.split(";")[0]
         checkData["recordType"] = check.split(";")[1]
 
-        checks.append(chackData)
+        checks.append(checkData)
 
     f.close()
     
@@ -41,13 +42,13 @@ def loadENV():
     for envVar in uENV:
         if envVar.startswith('CACHE_LOCATION'):
             cENV["CACHE_LOCATION"] = envVar.split("=")[1]
-        else if envVar.startswith('CHECKS_LOCATION'):
+        elif envVar.startswith('CHECKS_LOCATION'):
             cENV["CHECKS_LOCATION"] = envVar.split("=")[1]
-        else if envVar.startswith('TENNANT_ID'):
+        elif envVar.startswith('TENNANT_ID'):
             cENV["MS_TENNANT_ID"] = envVar.split("=")[1]
-        else if envVar.startswith('CLIENT_ID'):
+        elif envVar.startswith('CLIENT_ID'):
             cENV["MS_CLIENT_ID"] = envVar.split("=")[1]
-        else if envVar.startswith('CLIENT_SECRET'):
+        elif envVar.startswith('CLIENT_SECRET'):
             cENV["MS_CLIENT_SECRET"] = envVar.split("=")[1]
         else:
             continue
@@ -83,7 +84,7 @@ def getArgs():
 ###
 def main():
     args = getArgs()
-    env = loadEnv()
+    env =loadENV()
 
     checks = getChecks()
 
