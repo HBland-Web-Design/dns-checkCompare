@@ -88,6 +88,19 @@ def main():
 
     checks = getChecks()
 
+    for check in checks:
+        record = check["record"]
+        recordType = check["recordType"]
+
+        result = resolveQuery(record, recordType)
+
+    resolve_query()
+
+    cache = load_cache()
+
+    if cache == FileNotFoundError:
+        save_cache(checks)
+
 ###
 # Start the checks
 ###
