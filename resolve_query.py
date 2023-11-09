@@ -6,15 +6,10 @@ class NoResponse(Exception):
         self.message = message
         super().__init__(message)
 
-def get_root_domain(url):
-    extracted = tldextract.extract(url)
+def getRootDomain(record):
+    extracted = tldextract.extract(record)
     return f"{extracted.domain}.{extracted.suffix}"
-
-# Example usage
-url = "https://subdomain.example.com/path/to/page"
-root_domain = get_root_domain(url)
-print(f"Root domain: {root_domain}")
-
+    
 def resolveQuery(record, recordType):
 
     try:
@@ -23,7 +18,7 @@ def resolveQuery(record, recordType):
             raise NoResponse("No Value")
         else:
             response = {}
-            response["domain"] = 
+            response["domain"] = getRootDomain(record)
             response["record"] = record
             response["recordType"] = recordType
             response["recordValue"] = queryAnswer
