@@ -1,8 +1,8 @@
 import json
 
-def load_cache():
+def load_cache(cachePath):
     try:
-        with open('cache.json', 'r') as file:
+        with open(cachePath, 'r') as file:
             return json.load(file)
     except FileNotFoundError:
         return {}
@@ -21,8 +21,8 @@ def get_response(key):
 def generate_response_for_key(key):
     return f"Generated response for {key}"
 
-def save_cache(cache):
-    with open('cache.json', 'w') as file:
+def save_cache(cache, cachePath):
+    with open(cachePath, 'w') as file:
         json.dump(cache, file)
 
 def reset_cache():
