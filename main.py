@@ -4,7 +4,7 @@ from pathlib import Path
 import cache
 import alert
 import resolve_query
-
+import json
 ###
 # Load Checks
 ###
@@ -21,7 +21,7 @@ def getChecks():
 
         checkData = {}
         checkData["record"] = check.split(";")[0]
-        checkData["recordType"] = check.split(";")[1]
+        checkData["recordType"] = check.split(";")[1].strip('\n')
 
         checks.append(checkData)
 
@@ -34,8 +34,8 @@ def getChecks():
 ###
 def loadENV(envPath):
 
-    if envPath == None:
-        f = open('envPath', 'r')
+    if envPath != None:
+        f = open(envPath, 'r')
     else:
         f = open(Path('.env').resolve(), 'r')
 
@@ -44,18 +44,17 @@ def loadENV(envPath):
 
     for envVar in uENV:
         if envVar.startswith('CACHE_LOCATION'):
-            cENV["CACHE_LOCATION"] = envVar.split("=")[1]
+            cENV["CACHE_LOCATION"] = envVar.split("=")[1].strip('\n')
         elif envVar.startswith('CHECKS_LOCATION'):
-            cENV["CHECKS_LOCATION"] = envVar.split("=")[1]
+            cENV["CHECKS_LOCATION"] = envVar.split("=")[1].strip('\n')
         elif envVar.startswith('TENNANT_ID'):
-            cENV["MS_TENNANT_ID"] = envVar.split("=")[1]
+            cENV["MS_TENNANT_ID"] = envVar.split("=")[1].strip('\n')
         elif envVar.startswith('CLIENT_ID'):
-            cENV["MS_CLIENT_ID"] = envVar.split("=")[1]
+            cENV["MS_CLIENT_ID"] = envVar.split("=")[1].strip('\n')
         elif envVar.startswith('CLIENT_SECRET'):
-            cENV["MS_CLIENT_SECRET"] = envVar.split("=")[1]
+            cENV["MS_CLIENT_SECRET"] = envVar.split("=")[1].strip('\n')
         else:
             continue
-
     f.close()
 
     return cENV
@@ -69,12 +68,12 @@ def getArgs():
                     description='Checks a list of DNS Records and Alerts when different to Known Good Cache',
                     epilog='WIKI Available at the REPO https://github.com/HBland-Web-Design/dns-checkCompare')
     parser.add_argument('-e', '--environment',
-                        action='', required=False,
+                         required=False,
                         nargs=1, default=None, 
                         help='Overide Default Environment File')
     parser.add_argument('-r', '--reset',
-                        action='', required=False,
-                        nargs=1, default=None, 
+                        action='store_true', required=False,
+                        default=None, 
                         help='Resets the Cache to new known good')
     # parser.add_argument('-r', '--reset',
     #                     action='', required=False,
@@ -87,7 +86,7 @@ def getArgs():
 ###
 def main():
     args = getArgs()
-    env =loadENV()
+    env = loadENV(args.environment)
 
     checks = getChecks()
 
@@ -101,10 +100,22 @@ def main():
 
         checkResults.append(result)
 
-    cache = cache.load_cache(env.CACHE_LOCATION)
 
-    if cache == FileNotFoundError:
-        cache.save_cache(checkResults, env.CACHE_LOCATION)
+    if args.reset == True:
+        cache.reset_cache(checkResults, env['CACHE_LOCATION'])
+    
+    elif args.reset == False:
+        print("true")
+
+    else:
+        cacheLoaded = cache.load_cache(env['CACHE_LOCATION'])
+        
+        if cacheLoaded == "FileNotFound":
+            print(f"An error occurred: {str(cacheLoaded)}")
+            exit()
+
+        compareResult = cache.cache_compare(checkResults, cacheLoaded)
+        print(compareResult)
 
 ###
 # Start the checks
