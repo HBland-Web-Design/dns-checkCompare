@@ -1,2 +1,4 @@
 pydig
 tldextract
+msgraph-sdk
+azure.identity.aio
