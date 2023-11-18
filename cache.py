@@ -72,15 +72,16 @@ def cache_compare(current_check, cacheLoaded):
                 # print("++++++++++++++++++++++")
                 if current_record["record"] == cache_record["record"] and current_record["recordType"] == cache_record["recordType"]:
                     Result = {}
+                    Result['domain'] = current_record["domain"]
                     Result['record'] = current_record["record"]
                     Result['recordType'] = current_record["recordType"]
                     if current_record["recordValue"] == cache_record["recordValue"]:
                         # print(f"Record {current_record['record']},{current_record['recordType']} for Domain {current_record['domain']} matches Cache")
-                        Result['Status'] = "Pass"
+                        Result['status'] = "Pass"
                         # print("Pass")
                         # print(f"----")
                     else:
-                        Result['Status'] = "Fail"
+                        Result['status'] = "Fail"
                         Result['msg'] = {}
                         Result['msg']['ExpectedValue'] = cache_record['recordValue']
                         Result['msg']['CurrentValue'] = current_record['recordValue']

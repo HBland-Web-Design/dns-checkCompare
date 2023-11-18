@@ -5,6 +5,7 @@ import cache
 import alert
 import resolve_query
 import json
+import report
 ###
 # Load Checks
 ###
@@ -116,6 +117,8 @@ def main():
 
         compareResult = cache.cache_compare(checkResults, cacheLoaded)
         print(compareResult)
+
+        report.fill_global_template(compareResult)
 
 ###
 # Start the checks
