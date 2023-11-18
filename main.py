@@ -31,6 +31,18 @@ def getChecks():
     return checks
 
 ###
+# Group Results
+###
+def groupByDomain(checkResults):
+    groupedResults = {}
+    for item in results:
+        key = item.get('domain')
+        if key not in grouped_results:
+            groupedResults[key] = []
+        groupedResults[key].append(item)
+    return grouped_results
+
+###
 # Load Environment Variables
 ###
 def loadENV(envPath):
@@ -119,6 +131,11 @@ def main():
         print(compareResult)
 
         report.fill_global_template(compareResult)
+
+        domainGroupedResults = groupByDomain(compareResult)
+
+        for result in domainGroupedResults:
+            report.fill_domain_template(result)
 
 ###
 # Start the checks
