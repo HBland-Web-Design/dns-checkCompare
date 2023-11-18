@@ -28,27 +28,9 @@ def get_response(key):
         print(f"Error in get_response: {str(e)}")
         return None  # Return None in case of an error
 
-
-# def get_response(key):
-#     responses = load_cache()
-
-#     if key in responses:
-#         return responses[key]
-#     else:
-#         new_response = generate_response_for_key(key)
-#         responses[key] = new_response
-#         save_cache(responses)
-#         return new_response
-
 def generate_response_for_key(key):
     print ("Generated response for {key}")
     return f"Generated response for {key}"
-
-# def save_cache(cache, cachePath):
-#     print(cachePath)
-#     with open(cachePath, 'w') as file:
-#         file.append(json.dump(cache))
-#     file.close
 
 def save_cache(cache, cachePath):
     try:
@@ -59,8 +41,6 @@ def save_cache(cache, cachePath):
         print(f"JSON data saved to {cachePath} successfully.")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
-
-
 
 def reset_cache(cache, cachePath):
     try:
