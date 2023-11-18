@@ -35,7 +35,7 @@ def getChecks():
 def loadENV(envPath):
 
     if envPath == None:
-        f = open('envPath'), 'r')
+        f = open('envPath', 'r')
     else:
         f = open(Path('.env').resolve(), 'r')
 
@@ -97,14 +97,14 @@ def main():
         record = check["record"]
         recordType = check["recordType"]
 
-        result = resolveQuery(record, recordType)
+        result = resolve_query.resolveQuery(record, recordType)
 
         checkResults.append(result)
 
-    cache = load_cache(env.CACHE_LOCATION)
+    cache = cache.load_cache(env.CACHE_LOCATION)
 
     if cache == FileNotFoundError:
-        save_cache(checkResults, env.CACHE_LOCATION)
+        cache.save_cache(checkResults, env.CACHE_LOCATION)
 
 ###
 # Start the checks
