@@ -24,16 +24,16 @@ def fill_global_template(results):
     for record in results:
         if record['status'] == "Fail":
             RED += 1
-            row = f"\n<tr><td style='border: 1px solid black; padding: 8px; text-align: left;'>{record['domain']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{record['record']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{record['recordType']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{record['status']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{record['msg']}</td></tr>"
+            row = f"\n<tr><td style='border: 1px solid black; padding: 8px; text-align: center;'>{record['domain']}</td><td style='border: 1px solid black; padding: 8px; text-align: center;'>{record['record']}</td><td style='border: 1px solid black; padding: 8px; text-align: center;'>{record['recordType']}</td><td style='background-color: red; border: 1px solid black; padding: 8px; text-align: center;'>{record['status']}</td><td style='border: 1px solid black; padding: 8px; text-align: center;'>{record['msg']}</td></tr>"
         elif record['status'] == "Pass":
             RED += 0
-            row = f"\n<tr><td style='border: 1px solid black; padding: 8px; text-align: left;'>{record['domain']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{record['record']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{record['recordType']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{record['status']}</td><td style='border: 1px solid black; padding: 8px; text-align: left; background-color: lightgrey'></td></tr>"
+            row = f"\n<tr><td style='border: 1px solid black; padding: 8px; text-align: center;'>{record['domain']}</td><td style='border: 1px solid black; padding: 8px; text-align: center;'>{record['record']}</td><td style='border: 1px solid black; padding: 8px; text-align: center;'>{record['recordType']}</td><td style='background-color: green; border: 1px solid black; padding: 8px; text-align: center;'>{record['status']}</td><td style='border: 1px solid black; padding: 8px; text-align: center; background-color: lightgrey'></td></tr>"
         rows_content += row
 
     if RED >= 1:
         report_title=f"<h1 style='color: red;'>ERROR in Global DNS Record Check for {getDate()}</h1>"
     elif RED == 0:
-        report_title=f"Global DNS Record Check for {getDate()}"
+        report_title=f"<h1>Global DNS Record Check for {getDate()}</h1>"
     # Fill in the template
     filled_template = template_content.format(title=report_title, time=getTimeStamp(), rows=rows_content)
 
@@ -59,22 +59,24 @@ def fill_domain_template(domains):
     
     for domain, results in domains.items():
         print('HIT@@')
+        rows_content = ""
+        RED = 0
         for result in results:
-            rows_content = ""
-            RED = 0
             print(result)
             if result['status'] == "Fail":
+                print(result['status'])
                 RED += 1
-                row = f"\n<tr><td style='border: 1px solid black; padding: 8px; text-align: left;'>{result['record']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{result['recordType']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{result['status']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{result['msg']}</td></tr>"
+                row = f"\n<tr><td style='border: 1px solid black; padding: 8px; text-align: center;'>{result['record']}</td><td style='border: 1px solid black; padding: 8px; text-align: center;'>{result['recordType']}</td><td style='background-color: red; border: 1px solid black; padding: 8px; text-align: center;'>{result['status']}</td><td style='border: 1px solid black; padding: 8px; text-align: center;'>{result['msg']}</td></tr>"
             elif result['status'] == "Pass":
+                print(result['status'])
                 RED += 0
-                row = f"\n<tr><td style='border: 1px solid black; padding: 8px; text-align: left;'>{result['record']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{result['recordType']}</td><td style='border: 1px solid black; padding: 8px; text-align: left;'>{result['status']}</td><td style='border: 1px solid black; padding: 8px; text-align: left; background-color: lightgrey'></td></tr>"
+                row = f"\n<tr><td style='border: 1px solid black; padding: 8px; text-align: center;'>{result['record']}</td><td style='border: 1px solid black; padding: 8px; text-align: center;'>{result['recordType']}</td><td style='background-color: green; border: 1px solid black; padding: 8px; text-align: center;'>{result['status']}</td><td style='border: 1px solid black; padding: 8px; text-align: center; background-color: lightgrey'></td></tr>"
             rows_content += row
 
         if RED >= 1:
             report_title=f"<h1 style='color: red;'>ERROR in {domain} DNS Record Check for {getDate()}</h1>"
         elif RED == 0:
-            report_title=f"{domain} DNS Record Check for {getDate()}"
+            report_title=f"<h1>{domain} DNS Record Check for {getDate()}</h1>"
         # Fill in the template
         filled_template = template_content.format(domain=domain,title=report_title, time=getTimeStamp(), rows=rows_content)
 

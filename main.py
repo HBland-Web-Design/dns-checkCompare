@@ -164,7 +164,7 @@ def main():
             exit()
 
         compareResult = cache.cache_compare(checkResults, cacheLoaded)
-        print(compareResult)
+        # print(compareResult)
 
         report.fill_global_template(compareResult)
 

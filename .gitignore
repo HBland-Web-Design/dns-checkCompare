@@ -1,6 +1,8 @@
 # Custom
 cachefile
-*Report_*.html
+/Reports/*.html
+checks
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -27,3 +27,9 @@ def resolveQuery(record, recordType):
 
     except NoResponse as err:
         print(f"Fail: {err}")
+        response = {}
+        response["domain"] = getRootDomain(record)
+        response["record"] = record
+        response["recordType"] = recordType
+        response["recordValue"] = f"No Value for Record"
+        return response
