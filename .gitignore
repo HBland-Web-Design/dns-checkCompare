@@ -3,6 +3,7 @@ cachefile
 /Reports/*.html
 checks
 .DS_Store
+.prettierrc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
