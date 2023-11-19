@@ -9,9 +9,10 @@ class Mailer:
     def __init__(self, env):
         self.env = env
         self.MAILCREDENTIALS = {}
-        self.MAILER = ""
+        self.MAILER = DefineMailer(self)
 
     def DefineMailer(self):
+        self.MAILER = ""
         if env.MS_MAIL == "True": #TODO: Add to ENV Variables
             MAILER = MSGRAPH
             MAILCREDENTIALS['TENNANTID'] = env.MS_TENNANT_ID
@@ -24,20 +25,9 @@ class Mailer:
             MAILCREDENTIALS['USERNAME'] = "" #TODO: Update ENV Variables and fill
             MAILCREDENTIALS['PASSWORD'] = "" #TODO: Update ENV Variables and fill
 
-    def chosenProvider(self):
-        provider = self.MAILER
-        try:
-            if provider == "MSGRAPH":
-                continue
-            elif provider == "SMTP""
-                continue
-            else:
-                raise NoProvider("No Provider Selected")
-            return
-        except NoProvider as err:
-            print(f"Error: {err}")
-            return
-
     def sendMail(self):
+
+        if self.MAILER == SMTP:
+            mail-providers.smtp()
 
         return
