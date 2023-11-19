@@ -10,6 +10,13 @@ import report
 # Load Checks
 ###
 def getChecks():
+    """
+    The function `getChecks` reads a file named "checks" and parses its contents into a list of
+    dictionaries, where each dictionary represents a check with a "record" and "recordType" key-value
+    pair.
+    :return: The function `getChecks` returns a list of dictionaries, where each dictionary represents a
+    check. Each dictionary contains two key-value pairs: "record" and "recordType".
+    """
     f = open(Path('checks').resolve(), 'r')
     
     uChecks = f.readlines()
@@ -34,18 +41,38 @@ def getChecks():
 # Group Results
 ###
 def groupByDomain(checkResults):
+    """
+    The function `groupByDomain` groups a list of dictionaries by their 'domain' key.
+    
+    :param checkResults: The parameter `checkResults` is expected to be a list of dictionaries. Each
+    dictionary represents a check result and should have a key called 'domain' that represents the
+    domain name
+    :return: a dictionary where the keys are the unique domain values from the checkResults list, and
+    the values are lists of items from checkResults that have the same domain value.
+    """
     groupedResults = {}
-    for item in results:
+    for item in checkResults:
         key = item.get('domain')
-        if key not in grouped_results:
+        if key not in groupedResults:
             groupedResults[key] = []
         groupedResults[key].append(item)
-    return grouped_results
+    return groupedResults
 
 ###
 # Load Environment Variables
 ###
 def loadENV(envPath):
+    """
+    The function `loadENV` reads environment variables from a file and returns a dictionary containing
+    specific variables.
+    
+    :param envPath: The `envPath` parameter is a string that represents the path to the environment
+    file. This file contains environment variables that need to be loaded into the program. If the
+    `envPath` parameter is `None`, the function will try to open a file named `.env` in the current
+    directory
+    :return: a dictionary `cENV` which contains the environment variables `CACHE_LOCATION`,
+    `CHECKS_LOCATION`, `MS_TENNANT_ID`, `MS_CLIENT_ID`, and `MS_CLIENT_SECRET`.
+    """
 
     if envPath != None:
         f = open(envPath, 'r')
@@ -76,6 +103,11 @@ def loadENV(envPath):
 # Load Arguments
 ###
 def getArgs():
+    """
+    The `getArgs` function is a Python function that uses the `argparse` module to parse command line
+    arguments and return the parsed arguments.
+    :return: The function `getArgs()` returns the parsed arguments from the command line.
+    """
     parser = argparse.ArgumentParser(
                     prog='HBWD DNS CheckCompare',
                     description='Checks a list of DNS Records and Alerts when different to Known Good Cache',
@@ -98,6 +130,10 @@ def getArgs():
 # Main Load
 ###
 def main():
+    """
+    The main function performs a series of checks on records, resolves queries, and compares results
+    with a cached version before generating a report.
+    """
     args = getArgs()
     env = loadENV(args.environment)
 
@@ -134,8 +170,8 @@ def main():
 
         domainGroupedResults = groupByDomain(compareResult)
 
-        for result in domainGroupedResults:
-            report.fill_domain_template(result)
+        report.fill_domain_template(domainGroupedResults)
+        
 
 ###
 # Start the checks
