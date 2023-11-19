@@ -1,4 +1,4 @@
-import mailProviders
+import mail-providers
 
 class NoProvider(Exception):
     def __init__(self, message=None):
