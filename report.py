@@ -38,7 +38,8 @@ def fill_global_template(results):
     filled_template = template_content.format(title=report_title, time=getTimeStamp(), rows=rows_content)
 
     # Write the filled template to a new HTML file
-    with open('globalReport_{}.html'.format(getDate()), 'w') as file:
+    with open(Path('Reports/globalReport_{}.html'.format(getDate())).resolve(), 'w+') as file:
+        file.truncate(0)
         file.write(filled_template)
 
     print("Filled HTML template created successfully.")
@@ -78,7 +79,8 @@ def fill_domain_template(domains):
         filled_template = template_content.format(domain=domain,title=report_title, time=getTimeStamp(), rows=rows_content)
 
         # Write the filled template to a new HTML file
-        with open('{}_Report_{}.html'.format(domain, getDate()), 'w') as file:
+        with open(Path('Reports/{}_Report_{}.html'.format(domain, getDate())).resolve(), 'w+') as file:
+            file.truncate(0)
             file.write(filled_template)
 
         print("Filled HTML template created successfully.")
