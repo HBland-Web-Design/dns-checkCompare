@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from datetime import datetime
+import mailer
 ###
 # DateTime
 ###
@@ -13,7 +14,7 @@ def getTimeStamp():
 ###
 # FillTemplate
 ###
-def fill_global_template(results):
+def fill_global_template(env, results):
     # Load the HTML template
     with open(Path('Templates/globalReport.html').resolve(), 'r') as file:
         template_content = file.read()
@@ -36,16 +37,21 @@ def fill_global_template(results):
         report_title=f"<h1>Global DNS Record Check for {getDate()}</h1>"
     # Fill in the template
     filled_template = template_content.format(title=report_title, time=getTimeStamp(), rows=rows_content)
-
+    subject = "Global DNS Record Check for {}".format(getDate())
+    
+    mailer.main(env, subject, filled_template)
+    
     # Write the filled template to a new HTML file
     with open(Path('Reports/globalReport_{}.html'.format(getDate())).resolve(), 'w+') as file:
         file.truncate(0)
         file.write(filled_template)
 
     print("Filled HTML template created successfully.")
+    
+    return()
 
 
-def fill_domain_template(domains):
+def fill_domain_template(env, domains):
     # domain, results = domains
     # print(domain)
     # print(results)
@@ -80,9 +86,15 @@ def fill_domain_template(domains):
         # Fill in the template
         filled_template = template_content.format(domain=domain,title=report_title, time=getTimeStamp(), rows=rows_content)
 
+        subject = "{} DNS Record Check for {}".format(domain,getDate())
+    
+        mailer.main(env, subject, filled_template)
+        
         # Write the filled template to a new HTML file
         with open(Path('Reports/{}_Report_{}.html'.format(domain, getDate())).resolve(), 'w+') as file:
             file.truncate(0)
             file.write(filled_template)
 
         print("Filled HTML template created successfully.")
+        
+    return()

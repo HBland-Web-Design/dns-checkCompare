@@ -84,29 +84,37 @@ def loadENV(envPath):
 
     for envVar in uENV:
         if envVar.startswith('CACHE_LOCATION'):
-            cENV["CACHE_LOCATION"] = envVar.split("=")[1].strip('\n')
+            cENV["CACHE_LOCATION"] = envVar.split("CACHE_LOCATION=")[1].split(' #')[0].strip('\n')
         elif envVar.startswith('CHECKS_LOCATION'):
-            cENV["CHECKS_LOCATION"] = envVar.split("=")[1].strip('\n')
+            cENV["CHECKS_LOCATION"] = envVar.split("CHECKS_LOCATION=")[1].split(' #')[0].strip('\n')
+        # MAIL ENVELOPE
+        elif envVar.startswith('RECIPIENT'):
+            cENV["RECIPIENT"] = envVar.split("RECIPIENT=")[1].split(' #')[0].strip('\n')
+        elif envVar.startswith('SENDER'):
+            cENV["SENDER"] = envVar.split("SENDER=")[1].split(' #')[0].strip('\n')
+        # MAILER
         elif envVar.startswith('MAILER'):
-            cENV["MAILER"] = envVar.split("=")[1].strip('\n')
+            cENV["MAILER"] = envVar.split("MAILER=")[1].split(' #')[0].strip('\n')
         elif envVar.startswith('TENNANT_ID'):
-            cENV["MS_TENNANT_ID"] = envVar.split("=")[1].strip('\n')
+            cENV["MS_TENNANT_ID"] = envVar.split("TENNANT_ID=")[1].split(' #')[0].strip('\n')
         elif envVar.startswith('CLIENT_ID'):
-            cENV["MS_CLIENT_ID"] = envVar.split("=")[1].strip('\n')
+            cENV["MS_CLIENT_ID"] = envVar.split("CLIENT_ID=")[1].split(' #')[0].strip('\n')
         elif envVar.startswith('CLIENT_SECRET'):
-            cENV["MS_CLIENT_SECRET"] = envVar.split("=")[1].strip('\n')
+            cENV["MS_CLIENT_SECRET"] = envVar.split("CLIENT_SECRET=")[1].split(' #')[0].strip('\n')
+        elif envVar.startswith('AUTHENTICATION'):
+            cENV["SMTP_AUTHENTICATION"] = envVar.split("AUTHENTICATION=")[1].split(' #')[0].strip('\n')
         elif envVar.startswith('SERVER'):
-            cENV["SMTP_SERVER"] = envVar.split("=")[1].strip('\n')
+            cENV["SMTP_SERVER"] = envVar.split("SERVER=")[1].split(' #')[0].strip('\n')
         elif envVar.startswith('PORT'):
-            cENV["SMTP_PORT"] = envVar.split("=")[1].strip('\n')
+            cENV["SMTP_PORT"] = envVar.split("PORT=")[1].split(' #')[0].strip('\n')
         elif envVar.startswith('USERNAME'):
-            cENV["SMTP_USERNAME"] = envVar.split("=")[1].strip('\n')
+            cENV["SMTP_USERNAME"] = envVar.split("USERNAME=")[1].split(' #')[0].strip('\n')
         elif envVar.startswith('PASSWORD'):
-            cENV["SMTP_PASSWORD"] = envVar.split("=")[1].strip('\n')
+            cENV["SMTP_PASSWORD"] = envVar.split("PASSWORD=")[1].split(' #')[0].strip('\n')
         else:
             continue
     f.close()
-
+    print (cENV)
     return cENV
 
 ###
@@ -176,12 +184,12 @@ def main():
         compareResult = cache.cache_compare(checkResults, cacheLoaded)
         # print(compareResult)
 
-        report.fill_global_template(compareResult)
+        report.fill_global_template(env, compareResult)
 
         domainGroupedResults = groupByDomain(compareResult)
 
-        report.fill_domain_template(domainGroupedResults)
-        
+        report.fill_domain_template(env, domainGroupedResults)
+
 
 ###
 # Start the checks

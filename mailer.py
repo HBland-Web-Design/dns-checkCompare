@@ -1,33 +1,30 @@
-import mail-providers
+from mailProviders import smtp
+        
+def sendSMTP(env, envelope, content):
+    server={}
+    server['host'] = env['SMTP_SERVER']
+    server['port'] = env['SMTP_PORT']
+    server['Authentication'] = env['SMTP_AUTHENTICATION']
+    server['username'] = env['SMTP_USERNAME']
+    server['password'] = env['SMTP_PASSWORD']
+    
+    smtp.main(server, envelope, content)
+    
+    return
 
-class NoProvider(Exception):
-    def __init__(self, message=None):
-        self.message = message
-        super().__init__(message)
+def sendMSGRAPH():
+    
+    return
 
-class Mailer:
-    def __init__(self, env):
-        self.env = env
-        self.MAILCREDENTIALS = {}
-        self.MAILER = DefineMailer(self)
-
-    def DefineMailer(self):
-        self.MAILER = ""
-        if env.MS_MAIL == "True": #TODO: Add to ENV Variables
-            MAILER = MSGRAPH
-            MAILCREDENTIALS['TENNANTID'] = env.MS_TENNANT_ID
-            MAILCREDENTIALS['CLIENTID'] = env.MS_CLIENT_ID
-            MAILCREDENTIALS['CLIENTSECRET'] = env.MS_CLIENT_SECRET
-        elif env.SMTP == 'True': #TODO: Add to ENV Variables
-            MAILER = SMTP
-            MAILCREDENTIALS['SERVER'] = "" #TODO: Update ENV Variables and fill
-            MAILCREDENTIALS['PORT'] = "" #TODO: Update ENV Variables and fill
-            MAILCREDENTIALS['USERNAME'] = "" #TODO: Update ENV Variables and fill
-            MAILCREDENTIALS['PASSWORD'] = "" #TODO: Update ENV Variables and fill
-
-    def sendMail(self):
-
-        if self.MAILER == SMTP:
-            mail-providers.smtp()
-
-        return
+def main(env, subject, body):
+    
+    envelope={}
+    envelope['To'] = env['RECIPIENT']
+    envelope['From'] = env['SENDER']
+    envelope['Subject'] = subject
+    
+    if env['MAILER'] == 'SMTP':
+        sendSMTP(env, envelope, body)
+    elif env['MAILER'] == 'MSGRAPH':
+        pass
+    return
