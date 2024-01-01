@@ -87,12 +87,22 @@ def loadENV(envPath):
             cENV["CACHE_LOCATION"] = envVar.split("=")[1].strip('\n')
         elif envVar.startswith('CHECKS_LOCATION'):
             cENV["CHECKS_LOCATION"] = envVar.split("=")[1].strip('\n')
+        elif envVar.startswith('MAILER'):
+            cENV["MAILER"] = envVar.split("=")[1].strip('\n')
         elif envVar.startswith('TENNANT_ID'):
             cENV["MS_TENNANT_ID"] = envVar.split("=")[1].strip('\n')
         elif envVar.startswith('CLIENT_ID'):
             cENV["MS_CLIENT_ID"] = envVar.split("=")[1].strip('\n')
         elif envVar.startswith('CLIENT_SECRET'):
             cENV["MS_CLIENT_SECRET"] = envVar.split("=")[1].strip('\n')
+        elif envVar.startswith('SERVER'):
+            cENV["SMTP_SERVER"] = envVar.split("=")[1].strip('\n')
+        elif envVar.startswith('PORT'):
+            cENV["SMTP_PORT"] = envVar.split("=")[1].strip('\n')
+        elif envVar.startswith('USERNAME'):
+            cENV["SMTP_USERNAME"] = envVar.split("=")[1].strip('\n')
+        elif envVar.startswith('PASSWORD'):
+            cENV["SMTP_PASSWORD"] = envVar.split("=")[1].strip('\n')
         else:
             continue
     f.close()
