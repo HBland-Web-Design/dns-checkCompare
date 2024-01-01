@@ -21,7 +21,10 @@ The checks file location
 ### Mail Info
 
 `RECIPIENT`
+Set to the Recipient mail i.e. `reports@example.com`
+
 `SENDER`
+Set to the Sender mail i.e. `healthcheck@example.com`
 
 ### SMTP MAILER
 
