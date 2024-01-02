@@ -1,0 +1,1 @@
+00 7 * * * python /opt/hbland/checkcompare/main.py >> /var/log/cron.log 2>&1
