@@ -188,16 +188,20 @@ def main():
     with a cached version before generating a report.
     """
     args = getArgs()
-
+    logit.info('Checking host')
     if os.getenv('HB_RUNTIME') == 'DOCKER':
+        logit.info('Script running in Docker building env')
         env = dockerENV()
     else:
+        logit.info('Script running local building env')
         env = loadENV(args.environment)
-
+        
+    logit.info('Getting Checks')
     checks = getChecks()
-
+    logit.info('Checks complete')
     checkResults = []
-
+    logit.debug({}.format(checkResults))
+    
     for check in checks:
         record = check["record"]
         recordType = check["recordType"]
