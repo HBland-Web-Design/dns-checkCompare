@@ -11,7 +11,7 @@ ADD source/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy cron job to container
-ADD checkcompare.cronjob /opt/hbland/checkcompare.cronjob
+ADD cronjob /opt/hbland/checkcompare.cronjob
 
 # Copy source to container
 COPY source/ /opt/hbland/checkcompare/
