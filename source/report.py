@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from datetime import datetime
 import mailer
+import os
 ###
 # DateTime
 ###
@@ -42,9 +43,12 @@ def fill_global_template(env, results):
     mailer.main(env, subject, filled_template)
     
     # Write the filled template to a new HTML file
-    with open(Path('Reports/globalReport_{}.html'.format(getDate())).resolve(), 'w+') as file:
-        file.truncate(0)
-        file.write(filled_template)
+    if os.getenv('HB_RUNTIME') == 'DOCKER':
+        pass
+    else:
+        with open(Path('Reports/globalReport_{}.html'.format(getDate())).resolve(), 'w+') as file:
+            file.truncate(0)
+            file.write(filled_template)
 
     print("Filled HTML template created successfully.")
     
@@ -91,9 +95,12 @@ def fill_domain_template(env, domains):
         mailer.main(env, subject, filled_template)
         
         # Write the filled template to a new HTML file
-        with open(Path('Reports/{}_Report_{}.html'.format(domain, getDate())).resolve(), 'w+') as file:
-            file.truncate(0)
-            file.write(filled_template)
+        if os.getenv('HB_RUNTIME') == 'DOCKER':
+            pass
+        else:
+            with open(Path('Reports/{}_Report_{}.html'.format(domain, getDate())).resolve(), 'w+') as file:
+                file.truncate(0)
+                file.write(filled_template)
 
         print("Filled HTML template created successfully.")
         

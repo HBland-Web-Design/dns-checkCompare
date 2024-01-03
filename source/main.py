@@ -118,7 +118,7 @@ def loadENV(envPath):
     f.close()
     return cENV
 
-def dockerENV(envPath):
+def dockerENV():
     """
     The function `loadENV` reads environment variables from a file and returns a dictionary containing
     specific variables.
@@ -188,7 +188,7 @@ def main():
     """
     args = getArgs()
 
-    if os.environ[HB_RUNTIME] == ('DOCKER'):
+    if os.getenv('HB_RUNTIME') == 'DOCKER':
         env = dockerENV()
     else:
         env = loadENV(args.environment)
