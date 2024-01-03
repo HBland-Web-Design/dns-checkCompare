@@ -2,9 +2,14 @@ FROM python:3.10.13
 
 MAINTAINER Harry Bland <info@hbland.co.uk>
 
-ENV RUNTIME=DOCKER
+ENV HB_RUNTIME=DOCKER
 
-WORKDIR /usr/src/app
+WORKDIR /opt/hbland/checkcompare/
+
+RUN apt-get update && apt install \
+	cron \
+	dnsutils \
+	-y
 
 # Pull and Install requirements
 ADD source/requirements.txt ./
@@ -28,4 +33,4 @@ RUN \
 # Run the command on container startup:
 # - Run non-daemonized cron in background
 # - Output the log result from checkcompare.cronjob
-CMD (cron -f &) && tail -f /var/log/cron.log
+CMD python main.py --reset && (cron -f &) && tail -f /var/log/cron.log
