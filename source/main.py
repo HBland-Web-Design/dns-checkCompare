@@ -4,9 +4,8 @@ from pathlib import Path
 import cache
 import alert
 import resolve_query
-import json
-import os
-import report
+import json, os, report
+from logit import logit
 ###
 # Load Checks
 ###
@@ -19,21 +18,23 @@ def getChecks():
     check. Each dictionary contains two key-value pairs: "record" and "recordType".
     """
     f = open(Path('checks').resolve(), 'r')
-    
+    logit.info('Opening Checks file')
     uChecks = f.readlines()
     # Create data dictionary
     checks = []
     # loop through all checks and add to dictionary
     for check in uChecks:
+        logit.info('Running check for {}'.format(check))
         if check.startswith('#'):
             continue
 
         checkData = {}
         checkData["record"] = check.split(";")[0]
         checkData["recordType"] = check.split(";")[1].strip('\n')
-
+        logit.debug('{}'.format(checkData))
+        logit.info('Appending check to list')
         checks.append(checkData)
-
+    logit.info('Closing checks file')
     f.close()
     
     return checks
