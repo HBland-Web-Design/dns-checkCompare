@@ -5,6 +5,7 @@ import cache
 import alert
 import resolve_query
 import json
+import os
 import report
 ###
 # Load Checks
@@ -79,6 +80,7 @@ def loadENV(envPath):
     else:
         f = open(Path('.env').resolve(), 'r')
 
+
     uENV = f.readlines()
     cENV={}
 
@@ -114,7 +116,39 @@ def loadENV(envPath):
         else:
             continue
     f.close()
-    print (cENV)
+    return cENV
+
+def dockerENV(envPath):
+    """
+    The function `loadENV` reads environment variables from a file and returns a dictionary containing
+    specific variables.
+    
+    :param envPath: The `envPath` parameter is a string that represents the path to the environment
+    file. This file contains environment variables that need to be loaded into the program. If the
+    `envPath` parameter is `None`, the function will try to open a file named `.env` in the current
+    directory
+    :return: a dictionary `cENV` which contains the environment variables `CACHE_LOCATION`,
+    `CHECKS_LOCATION`, `MS_TENNANT_ID`, `MS_CLIENT_ID`, and `MS_CLIENT_SECRET`.
+    """
+
+    cENV={}
+    # Defaults
+    cENV["CACHE_LOCATION"] = os.getenv('CACHE_LOCATION', '/opt/hbland/checkcompare/cachefile')
+    cENV["CHECKS_LOCATION"] = os.getenv('CHECKS_LOCATION', '/opt/hbland/checkcompare/checks')
+    # Mail Envelope
+    cENV["RECIPIENT"] = os.getenv('RECIPIENT')
+    cENV["SENDER"] = os.getenv('SENDER')
+    # MAILER
+    cENV["MAILER"] = os.getenv('MAILER')
+    cENV["MS_TENNANT_ID"] = os.getenv('TENNANT_ID')
+    cENV["MS_CLIENT_ID"] = os.getenv('CLIENT_ID')
+    cENV["MS_CLIENT_SECRET"] = os.getenv('CLIENT_SECRET')
+    cENV["SMTP_AUTHENTICATION"] = os.getenv('AUTHENTICATION')
+    cENV["SMTP_SERVER"] = os.getenv('SERVER')
+    cENV["SMTP_PORT"] = os.getenv('PORT')
+    cENV["SMTP_USERNAME"] = os.getenv('USERNAME')
+    cENV["SMTP_PASSWORD"] = os.getenv('PASSWORD')
+
     return cENV
 
 ###
@@ -153,7 +187,11 @@ def main():
     with a cached version before generating a report.
     """
     args = getArgs()
-    env = loadENV(args.environment)
+
+    if os.environ[HB_RUNTIME] == ('DOCKER'):
+        env = dockerENV()
+    else:
+        env = loadENV(args.environment)
 
     checks = getChecks()
 

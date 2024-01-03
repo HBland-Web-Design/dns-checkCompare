@@ -2,6 +2,8 @@ FROM python:3.10.13
 
 MAINTAINER Harry Bland <info@hbland.co.uk>
 
+ENV RUNTIME=DOCKER
+
 WORKDIR /usr/src/app
 
 # Pull and Install requirements
