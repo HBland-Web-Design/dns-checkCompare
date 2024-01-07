@@ -188,7 +188,7 @@ def main():
     """
     args = getArgs()
 
-    if os.getenv('HB_RUNTIME') == 'DOCKER':
+    if os.getenv("HB_RUNTIME") == "DOCKER":
         env = dockerENV()
     else:
         env = loadENV(args.environment)
